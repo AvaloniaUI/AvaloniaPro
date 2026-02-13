@@ -16,14 +16,24 @@ jobs:
           script: |
             const body = context.payload.issue.body || '';
 
-            // Helper to extract comma-separated values from a form field
+            // Extract selections from a form field.
+            // Handles both comma-separated single line and multi-line formats.
             function getSelections(fieldName) {
-              const match = body.match(new RegExp(`### ${fieldName}\\s*\\n\\s*(.+)`));
+              const escaped = fieldName.replace(/[()]/g, '\\$&');
+              const pattern = new RegExp(`### ${escaped}\\s*\\n([\\s\\S]*?)(?=\\n### |$)`);
+              const match = body.match(pattern);
               if (!match) return [];
-              return match[1].split(',').map(s => s.trim()).filter(Boolean);
+
+              const raw = match[1].trim();
+              if (!raw || raw === '_No response_') return [];
+
+              return raw
+                .split(/[,\n]/)
+                .map(s => s.trim())
+                .filter(Boolean);
             }
 
-            const products = getSelections('Product');
+            const products = getSelections('Product(s)');
             const platforms = getSelections('Platform');
 
             // Product label mapping
