@@ -5,7 +5,7 @@ Welcome to the hub for [Avalonia Accelerate](https://avaloniaui.net/accelerate) 
 This repository doesn't contain the source code for Accelerate, but it does contain the source for a beautiful demo app. It's where you come to talk to us and to each other about everything related to the Accelerate product suite, including the WebView, DevTools, TreeDataGrid and more.
 
 ## Try It Out
-The demo app in this repository lets you try Accelerate with minimal effort. You'll need either a paid active licence key or a free trial to get started.
+The demo app in this repository lets you try Accelerate with minimal effort. Because the demo includes components like Virtual Keyboard, you'll need either an Enterprise licence key or a free trial to run it.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4e299f7d-b2f0-41ba-a5c3-2a6ba3d1d867" alt="Avalonia Accelerate Sample App"/>
@@ -13,7 +13,13 @@ The demo app in this repository lets you try Accelerate with minimal effort. You
 
 **[Start a Free Trial](https://portal.avaloniaui.net/accelerate/licenses?start-trial)**
 
-Already have a licence? Clone the repo, plug in your key, and you're good to go.
+Once you have your key, open `AccelerateDemo.csproj` and replace the placeholder:
+```xml 
+<ItemGroup>
+    <!-- Enterprise or Trial key required. -->
+    <AvaloniaUILicenseKey Include="YOUR_LICENSE_KEY_GOES_HERE" />
+</ItemGroup>
+```
 
 ## Getting Started
 
