@@ -1,0 +1,104 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!-- Page -->
+            <SolidColorBrush x:Key="PageBackground" Color="#F6F6F8"/>
+            <SolidColorBrush x:Key="PageForeground" Color="#111117"/>
+
+            <!-- Sidebar -->
+            <SolidColorBrush x:Key="SidebarBackground" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="SidebarBorderBrush" Color="#EBEBEF"/>
+            <SolidColorBrush x:Key="SidebarActiveItemBg" Color="#1A007DF9"/>
+
+            <!-- Cards -->
+            <SolidColorBrush x:Key="CardBackground" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="CardBorderBrush" Color="#E5E5EA"/>
+
+            <!-- Accent -->
+            <SolidColorBrush x:Key="AccentBrush" Color="#007DF9"/>
+            <SolidColorBrush x:Key="AccentLightBrush" Color="#1A007DF9"/>
+
+            <!-- Hero -->
+            <SolidColorBrush x:Key="HeroBannerFg" Color="#FFFFFF"/>
+
+            <!-- Text -->
+            <SolidColorBrush x:Key="CategoryForeground" Color="#8E8EA0"/>
+            <SolidColorBrush x:Key="SubtleForeground" Color="#646487"/>
+
+            <!-- Icon Badge Colors -->
+            <SolidColorBrush x:Key="BadgeIndigoBg" Color="#1A007DF9"/>
+            <SolidColorBrush x:Key="BadgeIndigoFg" Color="#007DF9"/>
+            <SolidColorBrush x:Key="BadgePinkBg" Color="#1AEC4899"/>
+            <SolidColorBrush x:Key="BadgePinkFg" Color="#EC4899"/>
+            <SolidColorBrush x:Key="BadgeOrangeBg" Color="#1AF97316"/>
+            <SolidColorBrush x:Key="BadgeOrangeFg" Color="#F97316"/>
+            <SolidColorBrush x:Key="BadgeTealBg" Color="#1A14B8A6"/>
+            <SolidColorBrush x:Key="BadgeTealFg" Color="#14B8A6"/>
+            <SolidColorBrush x:Key="BadgeBlueBg" Color="#1A3B82F6"/>
+            <SolidColorBrush x:Key="BadgeBlueFg" Color="#3B82F6"/>
+            <SolidColorBrush x:Key="BadgePurpleBg" Color="#1A007DF9"/>
+            <SolidColorBrush x:Key="BadgePurpleFg" Color="#007DF9"/>
+            <SolidColorBrush x:Key="BadgeEmeraldBg" Color="#1A10B981"/>
+            <SolidColorBrush x:Key="BadgeEmeraldFg" Color="#10B981"/>
+
+            <!-- Toolbar -->
+            <SolidColorBrush x:Key="ToolbarBackground" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#E5E5EA"/>
+
+            <!-- Section -->
+            <SolidColorBrush x:Key="SectionDivider" Color="#EBEBEF"/>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <!-- Page -->
+            <SolidColorBrush x:Key="PageBackground" Color="#111121"/>
+            <SolidColorBrush x:Key="PageForeground" Color="#F0F0F5"/>
+
+            <!-- Sidebar -->
+            <SolidColorBrush x:Key="SidebarBackground" Color="#181830"/>
+            <SolidColorBrush x:Key="SidebarBorderBrush" Color="#2A2A45"/>
+            <SolidColorBrush x:Key="SidebarActiveItemBg" Color="#33007DF9"/>
+
+            <!-- Cards -->
+            <SolidColorBrush x:Key="CardBackground" Color="#1E1E36"/>
+            <SolidColorBrush x:Key="CardBorderBrush" Color="#2E2E4A"/>
+
+            <!-- Accent -->
+            <SolidColorBrush x:Key="AccentBrush" Color="#4DA3FB"/>
+            <SolidColorBrush x:Key="AccentLightBrush" Color="#33007DF9"/>
+
+            <!-- Hero -->
+            <SolidColorBrush x:Key="HeroBannerFg" Color="#FFFFFF"/>
+
+            <!-- Text -->
+            <SolidColorBrush x:Key="CategoryForeground" Color="#7A7A95"/>
+            <SolidColorBrush x:Key="SubtleForeground" Color="#9494B0"/>
+
+            <!-- Icon Badge Colors -->
+            <SolidColorBrush x:Key="BadgeIndigoBg" Color="#33007DF9"/>
+            <SolidColorBrush x:Key="BadgeIndigoFg" Color="#4DA3FB"/>
+            <SolidColorBrush x:Key="BadgePinkBg" Color="#33EC4899"/>
+            <SolidColorBrush x:Key="BadgePinkFg" Color="#F472B6"/>
+            <SolidColorBrush x:Key="BadgeOrangeBg" Color="#33F97316"/>
+            <SolidColorBrush x:Key="BadgeOrangeFg" Color="#FB923C"/>
+            <SolidColorBrush x:Key="BadgeTealBg" Color="#3314B8A6"/>
+            <SolidColorBrush x:Key="BadgeTealFg" Color="#2DD4BF"/>
+            <SolidColorBrush x:Key="BadgeBlueBg" Color="#333B82F6"/>
+            <SolidColorBrush x:Key="BadgeBlueFg" Color="#60A5FA"/>
+            <SolidColorBrush x:Key="BadgePurpleBg" Color="#33007DF9"/>
+            <SolidColorBrush x:Key="BadgePurpleFg" Color="#6BB5FC"/>
+            <SolidColorBrush x:Key="BadgeEmeraldBg" Color="#3310B981"/>
+            <SolidColorBrush x:Key="BadgeEmeraldFg" Color="#34D399"/>
+
+            <!-- Toolbar -->
+            <SolidColorBrush x:Key="ToolbarBackground" Color="#1E1E36"/>
+            <SolidColorBrush x:Key="ToolbarBorderBrush" Color="#2E2E4A"/>
+
+            <!-- Section -->
+            <SolidColorBrush x:Key="SectionDivider" Color="#2A2A45"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

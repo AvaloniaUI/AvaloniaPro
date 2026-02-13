@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AccelerateDemo.ViewModels.Tooling"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="AccelerateDemo.Views.Tooling.ToolingOverviewView"
+             x:DataType="vm:ToolingOverviewViewModel">
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <Grid Width="{Binding Bounds.Width, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+        <StackPanel Spacing="24"
+                    Margin="32,28,32,32"
+                    HorizontalAlignment="Stretch">
+            <!-- Header -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Development Tools"
+                           FontSize="28" FontWeight="Black"
+                           LetterSpacing="-0.5"/>
+                <TextBlock Text="Accelerate your development workflow with professional tooling for Avalonia UI."
+                           Foreground="{DynamicResource SubtleForeground}"
+                           FontSize="14"
+                           LineHeight="22"/>
+            </StackPanel>
+
+            <!-- Tool Cards -->
+            <ItemsControl ItemsSource="{Binding Tools}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:ToolCardViewModel}">
+                        <Border Background="{DynamicResource CardBackground}"
+                                BorderBrush="{DynamicResource CardBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="12"
+                                Padding="28,24"
+                                Margin="0,0,0,12"
+                                BoxShadow="0 2 8 0 #0D000000">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <!-- Icon Badge -->
+                                <Border Grid.Column="0"
+                                        Background="{Binding BadgeBackground}"
+                                        CornerRadius="12"
+                                        Width="64" Height="64"
+                                        Margin="0,0,24,0"
+                                        VerticalAlignment="Top">
+                                    <PathIcon Data="{Binding IconData}"
+                                             Foreground="{Binding BadgeForeground}"
+                                             Width="28" Height="28"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                                </Border>
+                                <!-- Content -->
+                                <StackPanel Grid.Column="1" Spacing="8"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="18" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               FontSize="13.5"
+                                               TextWrapping="Wrap"
+                                               Foreground="{DynamicResource SubtleForeground}"
+                                               LineHeight="21"/>
+                                    <TextBlock Text="Learn More &#x2192;"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource AccentBrush}"
+                                               Margin="0,4,0,0"
+                                               Cursor="Hand"
+                                               Tag="{Binding LearnMoreUrl}"
+                                               Tapped="LearnMore_Tapped"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

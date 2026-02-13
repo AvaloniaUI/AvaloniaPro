@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AccelerateDemo.ViewModels.DataGrid"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="AccelerateDemo.Views.DataGrid.FlatDataGridView"
+             x:DataType="vm:FlatDataGridViewModel">
+
+    <DockPanel Margin="32,28,32,32">
+        <!-- Header -->
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,20">
+            <TextBlock Text="Flat Data Grid"
+                       FontSize="28" FontWeight="Black"
+                       LetterSpacing="-0.5"/>
+            <TextBlock Text="Tabular data with sorting, filtering, and multi-row selection."
+                       Foreground="{DynamicResource SubtleForeground}"
+                       FontSize="14" LineHeight="22"/>
+        </StackPanel>
+
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top"
+                Background="{DynamicResource CardBackground}"
+                BorderBrush="{DynamicResource CardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Padding="12"
+                Margin="0,0,0,16"
+                BoxShadow="0 1 3 0 #08000000">
+            <TextBox Text="{Binding SearchText}"
+                     Watermark="Search by name, email, or department..."
+                     BorderThickness="0"
+                     Background="Transparent"
+                     Padding="4,7,4,4">
+                <TextBox.InnerLeftContent>
+                    <PathIcon Width="16" Height="16" Margin="4,0,8,0"
+                              Foreground="{DynamicResource SubtleForeground}"
+                              Data="M8.5 3a5.5 5.5 0 0 1 4.383 8.823l3.896 3.9a.75.75 0 0 1-1.06 1.06l-3.9-3.896A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
+                </TextBox.InnerLeftContent>
+                <TextBox.Styles>
+                    <Style Selector="TextBox /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                    <Style Selector="TextBox:focus-within /template/ Border#PART_BorderElement">
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </Border>
+
+        <!-- Grid -->
+        <Border Background="{DynamicResource CardBackground}"
+                BorderBrush="{DynamicResource CardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                ClipToBounds="True"
+                BoxShadow="0 1 3 0 #08000000">
+            <TreeDataGrid Source="{Binding Source}"/>
+        </Border>
+    </DockPanel>
+</UserControl>

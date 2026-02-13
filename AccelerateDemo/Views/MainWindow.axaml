@@ -1,0 +1,149 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AccelerateDemo.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+        x:Class="AccelerateDemo.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Avalonia Accelerate - Component Showcase"
+        Width="1200" Height="800"
+        MinWidth="900" MinHeight="600">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="250,*">
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource SidebarBackground}"
+                BorderBrush="{DynamicResource SidebarBorderBrush}"
+                BorderThickness="0,0,1,0">
+            <DockPanel>
+                <!-- Header -->
+                <StackPanel DockPanel.Dock="Top" Margin="24,24,24,0">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <!-- Logo badge -->
+                        <Border Width="32" Height="32" CornerRadius="8">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                    <GradientStop Color="#007DF9" Offset="0"/>
+                                    <GradientStop Color="#005CFE" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Viewbox Width="18" Height="18"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center">
+                                <Path Data="M13.2909 0H35.0817C38.0272 0 40.4151 2.38781 40.4151 5.33333C40.4151 6.74782 39.8532 8.10438 38.853 9.10457L28.1863 19.7712C27.1861 20.7714 25.8295 21.3333 24.4151 21.3333H13.2909C10.3453 21.3333 7.95753 18.9455 7.95753 16V5.33333C7.95753 2.38781 10.3453 0 13.2909 0ZM34.6242 48H12.8333C9.88781 48 7.5 45.6122 7.5 42.6667C7.5 41.2522 8.0619 39.8956 9.0621 38.8954L19.7288 28.2288C20.729 27.2286 22.0855 26.6667 23.5 26.6667H34.6242C37.5697 26.6667 39.9575 29.0545 39.9575 32V42.6667C39.9575 45.6122 37.5697 48 34.6242 48Z"
+                                      Fill="White" Stretch="Uniform"/>
+                            </Viewbox>
+                        </Border>
+                        <StackPanel Spacing="0" VerticalAlignment="Center">
+                            <TextBlock Text="Accelerate"
+                                       FontSize="17" FontWeight="Bold"
+                                       LetterSpacing="-0.3"/>
+                            <TextBlock Text="Component Showcase"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource SubtleForeground}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border DockPanel.Dock="Top" Height="1"
+                        Background="{DynamicResource SectionDivider}"
+                        Margin="20,16,20,8"/>
+
+                <!-- Theme Toggle at bottom -->
+                <Border DockPanel.Dock="Bottom"
+                        Margin="12,8,12,16">
+                    <Button Command="{Binding ToggleThemeCommand}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            Padding="0,10"
+                            CornerRadius="8"
+                            Background="{DynamicResource AccentLightBrush}"
+                            Foreground="{DynamicResource AccentBrush}"
+                            FontSize="13"
+                            FontWeight="SemiBold">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Width="14" Height="14"
+                                     Foreground="{DynamicResource AccentBrush}"
+                                     Data="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>
+                            <TextBlock Text="Toggle Theme" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+
+                <!-- Navigation List -->
+                <ListBox ItemsSource="{Binding NavigationItems}"
+                         SelectedItem="{Binding SelectedNavItem}"
+                         SelectionMode="Single"
+                         Background="Transparent"
+                         Margin="0,4,0,0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="16,9,16,9"/>
+                            <Setter Property="Margin" Value="8,1,8,1"/>
+                            <Setter Property="CornerRadius" Value="8"/>
+                            <Setter Property="FontSize" Value="13"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+                            <Setter Property="Background" Value="{DynamicResource SidebarActiveItemBg}"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected TextBlock">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                        </Style>
+                        <Style Selector="ListBoxItem:selected PathIcon">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                        </Style>
+                    </ListBox.Styles>
+                    <ListBox.ItemContainerTheme>
+                        <ControlTheme x:DataType="vm:NavigationItemViewModel"
+                                      TargetType="ListBoxItem"
+                                      BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="IsHitTestVisible" Value="{Binding !IsCategory}"/>
+                            <Setter Property="Focusable" Value="{Binding !IsCategory}"/>
+                            <Setter Property="MinHeight" Value="0"/>
+                            <Setter Property="Padding" Value="16,9,16,9"/>
+                        </ControlTheme>
+                    </ListBox.ItemContainerTheme>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:NavigationItemViewModel}">
+                            <Panel>
+                                <!-- Category Header -->
+                                <TextBlock Text="{Binding Title}"
+                                           IsVisible="{Binding IsCategory}"
+                                           FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource CategoryForeground}"
+                                           Margin="-4,10,0,2"
+                                           LetterSpacing="0.8"/>
+                                <!-- Nav Item -->
+                                <StackPanel Orientation="Horizontal" Spacing="10"
+                                            IsVisible="{Binding !IsCategory}">
+                                    <PathIcon Data="{Binding IconData}"
+                                              Width="16" Height="16"
+                                              Foreground="{DynamicResource SubtleForeground}"/>
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="13.5"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Panel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- Content Area -->
+        <Border Grid.Column="1" Background="{DynamicResource PageBackground}">
+            <ContentControl Content="{Binding CurrentPage}"
+                            Margin="0"/>
+        </Border>
+    </Grid>
+
+</Window>
