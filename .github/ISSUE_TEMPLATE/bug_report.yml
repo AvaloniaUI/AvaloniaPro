@@ -20,7 +20,8 @@ body:
   - type: dropdown
     id: product
     attributes:
-      label: Product
+      label: Product(s)
+      multiple: true
       options:
         - DevTools
         - Avalonia for Visual Studio
@@ -31,6 +32,20 @@ body:
         - TreeDataGrid
         - Markdown Viewer
         - Virtual Keyboard
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - iOS
+        - Android
+        - WASM
     validations:
       required: true
   - type: dropdown
