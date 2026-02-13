@@ -1,20 +1,31 @@
-name: Auto-label by product and platform
+name: Auto-label and notify Slack
 
 on:
   issues:
     types: [opened, edited]
 
 jobs:
-  label:
+  label-and-notify:
     runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
-      - name: Apply labels
+      - name: Apply labels and notify Slack
         uses: actions/github-script@v7
+        env:
+          SLACK_DEVTOOLS: ${{ secrets.SLACK_WEBHOOK_DEVTOOLS }}
+          SLACK_VISUAL_STUDIO: ${{ secrets.SLACK_WEBHOOK_VISUAL_STUDIO }}
+          SLACK_VSCODE: ${{ secrets.SLACK_WEBHOOK_VSCODE }}
+          SLACK_PARCEL: ${{ secrets.SLACK_WEBHOOK_PARCEL }}
+          SLACK_WEBVIEW: ${{ secrets.SLACK_WEBHOOK_WEBVIEW }}
+          SLACK_MEDIAPLAYER: ${{ secrets.SLACK_WEBHOOK_MEDIAPLAYER }}
+          SLACK_TREEDATAGRID: ${{ secrets.SLACK_WEBHOOK_TREEDATAGRID }}
+          SLACK_MARKDOWN_VIEWER: ${{ secrets.SLACK_WEBHOOK_MARKDOWN_VIEWER }}
+          SLACK_VIRTUAL_KEYBOARD: ${{ secrets.SLACK_WEBHOOK_VIRTUAL_KEYBOARD }}
         with:
           script: |
             const body = context.payload.issue.body || '';
+            const issue = context.payload.issue;
 
             // Extract selections from a form field.
             // Handles both comma-separated single line and multi-line formats.
@@ -59,11 +70,25 @@ jobs:
               'WASM': 'wasm',
             };
 
+            // Slack webhook mapping
+            const slackWebhookMap = {
+              'DevTools': process.env.SLACK_DEVTOOLS,
+              'Avalonia for Visual Studio': process.env.SLACK_VISUAL_STUDIO,
+              'Avalonia for Code': process.env.SLACK_VSCODE,
+              'Parcel': process.env.SLACK_PARCEL,
+              'WebView': process.env.SLACK_WEBVIEW,
+              'MediaPlayer': process.env.SLACK_MEDIAPLAYER,
+              'TreeDataGrid': process.env.SLACK_TREEDATAGRID,
+              'Markdown Viewer': process.env.SLACK_MARKDOWN_VIEWER,
+              'Virtual Keyboard': process.env.SLACK_VIRTUAL_KEYBOARD,
+            };
+
             // Category classification
             const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
             const components = ['WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
 
-            // Build the set of labels to apply
+            // --- LABELLING ---
+
             const labelsToAdd = [];
 
             for (const product of products) {
@@ -71,7 +96,6 @@ jobs:
               if (label) labelsToAdd.push(label);
             }
 
-            // Add category labels based on selected products
             const hasTool = products.some(p => tools.includes(p));
             const hasComponent = products.some(p => components.includes(p));
             if (hasTool) labelsToAdd.push('tool');
@@ -82,31 +106,68 @@ jobs:
               if (label) labelsToAdd.push(label);
             }
 
-            if (labelsToAdd.length === 0) return;
+            if (labelsToAdd.length > 0) {
+              const allManagedLabels = [
+                ...Object.values(productLabelMap),
+                ...Object.values(platformLabelMap),
+                'tool',
+                'component',
+              ];
 
-            // Remove any existing managed labels first
-            const allManagedLabels = [
-              ...Object.values(productLabelMap),
-              ...Object.values(platformLabelMap),
-              'tool',
-              'component',
-            ];
+              const currentLabels = issue.labels.map(l => l.name);
+              const labelsToRemove = currentLabels.filter(l => allManagedLabels.includes(l));
 
-            const currentLabels = context.payload.issue.labels.map(l => l.name);
-            const labelsToRemove = currentLabels.filter(l => allManagedLabels.includes(l));
+              for (const old of labelsToRemove) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: old,
+                });
+              }
 
-            for (const old of labelsToRemove) {
-              await github.rest.issues.removeLabel({
+              await github.rest.issues.addLabels({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                name: old,
+                labels: labelsToAdd,
               });
             }
 
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: labelsToAdd,
-            });
+            // --- SLACK NOTIFICATIONS (only on new issues) ---
+
+            if (context.payload.action !== 'opened') return;
+
+            const platformTags = platforms.length > 0 ? platforms.join(', ') : 'Not specified';
+
+            for (const product of products) {
+              const webhookUrl = slackWebhookMap[product];
+              if (!webhookUrl) continue;
+
+              const payload = {
+                blocks: [
+                  {
+                    type: 'section',
+                    text: {
+                      type: 'mrkdwn',
+                      text: `🐛 *<${issue.html_url}|${issue.title}>*`,
+                    },
+                  },
+                  {
+                    type: 'context',
+                    elements: [
+                      {
+                        type: 'mrkdwn',
+                        text: `*Product:* ${product}  |  *Platform:* ${platformTags}  |  *By:* ${issue.user.login}`,
+                      },
+                    ],
+                  },
+                ],
+              };
+
+              await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+              });
+            }
