@@ -33,15 +33,20 @@ jobs:
               'Virtual Keyboard': 'virtual keyboard',
             };
 
-            const label = labelMap[product];
-            if (!label) return;
+            const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
+            const components = ['WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
+
+            const productLabel = labelMap[product];
+            if (!productLabel) return;
+
+            const categoryLabel = tools.includes(product) ? 'tool' : components.includes(product) ? 'component' : null;
 
             const currentLabels = context.payload.issue.labels.map(l => l.name);
-            if (currentLabels.includes(label)) return;
 
-            // Remove any existing product labels first
-            const productLabels = Object.values(labelMap);
-            const labelsToRemove = currentLabels.filter(l => productLabels.includes(l));
+            // Remove any existing product and category labels
+            const allProductLabels = Object.values(labelMap);
+            const allCategoryLabels = ['tool', 'component'];
+            const labelsToRemove = currentLabels.filter(l => allProductLabels.includes(l) || allCategoryLabels.includes(l));
             for (const old of labelsToRemove) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -51,9 +56,12 @@ jobs:
               });
             }
 
+            const labelsToAdd = [productLabel];
+            if (categoryLabel) labelsToAdd.push(categoryLabel);
+
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: [label],
+              labels: labelsToAdd,
             });
