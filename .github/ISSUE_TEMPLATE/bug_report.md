@@ -1,0 +1,79 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: bug
+assignees: ''
+
+---
+
+name: Bug Report
+description: File a bug report
+labels: ["bug"]
+body:
+    - type: textarea
+      id: what-happened
+      attributes:
+          label: Describe the bug
+          description: A clear and concise description of what the bug is.
+      validations:
+          required: true
+    - type: textarea
+      id: steps
+      attributes:
+          label: To Reproduce
+          description: Steps to reproduce the behaviour.
+      validations:
+          required: true
+ - type: dropdown
+      id: product
+      attributes:
+        label: Product
+        options:
+          - DevTools
+          - Avalonia for Visual Studio
+          - Avalonia for Code
+          - Parcel
+          - WebView
+          - MediaPlayer
+          - TreeDataGrid
+          - Markdown Viewer
+          - Virtual Keyboard
+      validations:
+        required: true
+    - type: dropdown
+      id: tier
+      attributes:
+        label: Accelerate Tier
+        options:
+          - Community
+          - Trial
+          - Business
+          - Enterprise
+      validations:
+        required: true
+    - type: input
+      id: avalonia-version
+      attributes:
+          label: Avalonia version
+          placeholder: e.g. 0.10.18, 11.0
+    - type: input
+      id: version
+      attributes:
+          label: Accelerate Version
+          placeholder: e.g. v11.x.x
+    - type: textarea
+      id: logs
+      attributes:
+          label: Relevant log output
+          description: Please attach any relevant log output. You can find the logs in the Output panel (View -> Output) under the Avalonia for VS Code channel.
+          render: shell
+      validations:
+          required: true
+    - type: textarea
+      id: additional-info
+      attributes:
+          label: Additional context
+          description: |
+              Add any other context about the problem here.
+              If applicable, add screenshots to help explain your problem.
