@@ -1,0 +1,59 @@
+name: Auto-label by product
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Apply product label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+
+            const productMatch = body.match(/### Product\s*\n\s*(.+)/);
+            if (!productMatch) return;
+
+            const product = productMatch[1].trim();
+
+            const labelMap = {
+              'DevTools': 'dev tools',
+              'Avalonia for Visual Studio': 'visual studio',
+              'Avalonia for Code': 'visual studio code',
+              'Parcel': 'parcel',
+              'WebView': 'webview',
+              'MediaPlayer': 'mediaplayer',
+              'TreeDataGrid': 'treedatagrid',
+              'Markdown Viewer': 'markdown viewer',
+              'Virtual Keyboard': 'virtual keyboard',
+            };
+
+            const label = labelMap[product];
+            if (!label) return;
+
+            const currentLabels = context.payload.issue.labels.map(l => l.name);
+            if (currentLabels.includes(label)) return;
+
+            // Remove any existing product labels first
+            const productLabels = Object.values(labelMap);
+            const labelsToRemove = currentLabels.filter(l => productLabels.includes(l));
+            for (const old of labelsToRemove) {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: old,
+              });
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: [label],
+            });
