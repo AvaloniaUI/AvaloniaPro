@@ -58,7 +58,7 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Please attach any relevant log output. You can find the logs in the Output panel (View -> Output) under the Avalonia for VS Code channel. If no logs are available, write N/A.
+      description: Please attach any relevant log output. 
       render: shell
   - type: textarea
     id: additional-info
