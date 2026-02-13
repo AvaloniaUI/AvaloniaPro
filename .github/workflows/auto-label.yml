@@ -1,4 +1,4 @@
-name: Auto-label by product
+name: Auto-label by product and platform
 
 on:
   issues:
@@ -10,18 +10,24 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Apply product label
+      - name: Apply labels
         uses: actions/github-script@v7
         with:
           script: |
             const body = context.payload.issue.body || '';
 
-            const productMatch = body.match(/### Product\s*\n\s*(.+)/);
-            if (!productMatch) return;
+            // Helper to extract comma-separated values from a form field
+            function getSelections(fieldName) {
+              const match = body.match(new RegExp(`### ${fieldName}\\s*\\n\\s*(.+)`));
+              if (!match) return [];
+              return match[1].split(',').map(s => s.trim()).filter(Boolean);
+            }
 
-            const product = productMatch[1].trim();
+            const products = getSelections('Product');
+            const platforms = getSelections('Platform');
 
-            const labelMap = {
+            // Product label mapping
+            const productLabelMap = {
               'DevTools': 'dev tools',
               'Avalonia for Visual Studio': 'visual studio',
               'Avalonia for Code': 'visual studio code',
@@ -33,20 +39,52 @@ jobs:
               'Virtual Keyboard': 'virtual keyboard',
             };
 
+            // Platform label mapping
+            const platformLabelMap = {
+              'Windows': 'windows',
+              'macOS': 'macos',
+              'Linux': 'linux',
+              'iOS': 'ios',
+              'Android': 'android',
+              'WASM': 'wasm',
+            };
+
+            // Category classification
             const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
             const components = ['WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
 
-            const productLabel = labelMap[product];
-            if (!productLabel) return;
+            // Build the set of labels to apply
+            const labelsToAdd = [];
 
-            const categoryLabel = tools.includes(product) ? 'tool' : components.includes(product) ? 'component' : null;
+            for (const product of products) {
+              const label = productLabelMap[product];
+              if (label) labelsToAdd.push(label);
+            }
+
+            // Add category labels based on selected products
+            const hasTool = products.some(p => tools.includes(p));
+            const hasComponent = products.some(p => components.includes(p));
+            if (hasTool) labelsToAdd.push('tool');
+            if (hasComponent) labelsToAdd.push('component');
+
+            for (const platform of platforms) {
+              const label = platformLabelMap[platform];
+              if (label) labelsToAdd.push(label);
+            }
+
+            if (labelsToAdd.length === 0) return;
+
+            // Remove any existing managed labels first
+            const allManagedLabels = [
+              ...Object.values(productLabelMap),
+              ...Object.values(platformLabelMap),
+              'tool',
+              'component',
+            ];
 
             const currentLabels = context.payload.issue.labels.map(l => l.name);
+            const labelsToRemove = currentLabels.filter(l => allManagedLabels.includes(l));
 
-            // Remove any existing product and category labels
-            const allProductLabels = Object.values(labelMap);
-            const allCategoryLabels = ['tool', 'component'];
-            const labelsToRemove = currentLabels.filter(l => allProductLabels.includes(l) || allCategoryLabels.includes(l));
             for (const old of labelsToRemove) {
               await github.rest.issues.removeLabel({
                 owner: context.repo.owner,
@@ -55,9 +93,6 @@ jobs:
                 name: old,
               });
             }
-
-            const labelsToAdd = [productLabel];
-            if (categoryLabel) labelsToAdd.push(categoryLabel);
 
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
