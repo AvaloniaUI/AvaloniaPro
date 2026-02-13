@@ -1,14 +1,6 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: bug
-assignees: ''
-
----
-
 name: Bug Report
 description: File a bug report
+title: "[Bug]: "
 labels: ["bug"]
 body:
     - type: textarea
@@ -25,33 +17,33 @@ body:
           description: Steps to reproduce the behaviour.
       validations:
           required: true
- - type: dropdown
+    - type: dropdown
       id: product
       attributes:
-        label: Product
-        options:
-          - DevTools
-          - Avalonia for Visual Studio
-          - Avalonia for Code
-          - Parcel
-          - WebView
-          - MediaPlayer
-          - TreeDataGrid
-          - Markdown Viewer
-          - Virtual Keyboard
+          label: Product
+          options:
+              - DevTools
+              - Avalonia for Visual Studio
+              - Avalonia for Code
+              - Parcel
+              - WebView
+              - MediaPlayer
+              - TreeDataGrid
+              - Markdown Viewer
+              - Virtual Keyboard
       validations:
-        required: true
+          required: true
     - type: dropdown
       id: tier
       attributes:
-        label: Accelerate Tier
-        options:
-          - Community
-          - Trial
-          - Business
-          - Enterprise
+          label: Accelerate Tier
+          options:
+              - Community
+              - Trial
+              - Business
+              - Enterprise
       validations:
-        required: true
+          required: true
     - type: input
       id: avalonia-version
       attributes:
@@ -66,10 +58,8 @@ body:
       id: logs
       attributes:
           label: Relevant log output
-          description: Please attach any relevant log output. You can find the logs in the Output panel (View -> Output) under the Avalonia for VS Code channel.
+          description: Please attach any relevant log output. You can find the logs in the Output panel (View -> Output) under the Avalonia for VS Code channel. If no logs are available, write N/A.
           render: shell
-      validations:
-          required: true
     - type: textarea
       id: additional-info
       attributes:
