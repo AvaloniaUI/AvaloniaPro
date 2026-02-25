@@ -70,6 +70,19 @@ jobs:
               'WASM': 'wasm',
             };
 
+            // Product owner mapping 
+            const productOwnerMap = {
+              'DevTools': 'maxkatz6',
+              'Avalonia for Visual Studio': 'mrlacey',
+              'Avalonia for Code': 'mrlacey',
+              'Parcel': 'maxkatz6',
+              'WebView': 'maxkatz6',
+              'MediaPlayer': 'jmacato',
+              'TreeDataGrid': 'grokys',
+              'Markdown Viewer': 'Gillibald',
+              'Virtual Keyboard': 'kekekeks',
+            };
+
             // Slack webhook mapping
             const slackWebhookMap = {
               'DevTools': process.env.SLACK_DEVTOOLS,
@@ -87,7 +100,7 @@ jobs:
             const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
             const components = ['WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
 
-            // --- LABELLING ---
+            // --- LABELLING --- 
 
             const labelsToAdd = [];
 
@@ -134,8 +147,53 @@ jobs:
               });
             }
 
-            // --- SLACK NOTIFICATIONS (only on new issues) ---
+            // --- ASSIGNING (only on new issues) ---
+            if (context.payload.action === 'opened') {
+              const assignees = [...new Set(products.map(p => productOwnerMap[p]).filter(Boolean))];
 
+              if (assignees.length > 0) {
+                await github.rest.issues.addAssignees({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  assignees,
+                });
+              }
+            }
+
+            // --- REASSIGNING (on edits) ---
+            if (context.payload.action === 'edited') {
+              const allOwners = [...new Set(Object.values(productOwnerMap))];
+              const currentAssignees = issue.assignees.map(a => a.login);
+              const currentManaged = currentAssignees.filter(a => allOwners.includes(a)).sort();
+              const newAssignees = [...new Set(products.map(p => productOwnerMap[p]).filter(Boolean))].sort();
+
+              const hasChanged = JSON.stringify(currentManaged) !== JSON.stringify(newAssignees);
+
+              if (hasChanged) {
+                if (currentManaged.length > 0) {
+                  await github.rest.issues.removeAssignees({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    assignees: currentManaged,
+                  });
+                }
+
+                if (newAssignees.length > 0) {
+                  await github.rest.issues.addAssignees({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    assignees: newAssignees,
+                  });
+                }
+              }
+            }
+
+            // --- SLACK NOTIFICATIONS ---
+
+            // Only run this for new issues 
             if (context.payload.action !== 'opened') return;
 
             const platformTags = platforms.length > 0 ? platforms.join(', ') : 'Not specified';
