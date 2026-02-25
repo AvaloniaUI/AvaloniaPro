@@ -1,0 +1,118 @@
+name: Stale issue reminder
+
+on:
+  schedule:
+    # Runs at 9am UTC, Monday to Friday
+    - cron: '0 9 * * 1-5'
+
+jobs:
+  check-stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+    steps:
+      - name: Find unengaged issues and notify Slack
+        uses: actions/github-script@v7
+        env:
+          SLACK_DEVTOOLS: ${{ secrets.SLACK_WEBHOOK_DEVTOOLS }}
+          SLACK_VISUAL_STUDIO: ${{ secrets.SLACK_WEBHOOK_VISUAL_STUDIO }}
+          SLACK_VSCODE: ${{ secrets.SLACK_WEBHOOK_VSCODE }}
+          SLACK_PARCEL: ${{ secrets.SLACK_WEBHOOK_PARCEL }}
+          SLACK_WEBVIEW: ${{ secrets.SLACK_WEBHOOK_WEBVIEW }}
+          SLACK_MEDIAPLAYER: ${{ secrets.SLACK_WEBHOOK_MEDIAPLAYER }}
+          SLACK_TREEDATAGRID: ${{ secrets.SLACK_WEBHOOK_TREEDATAGRID }}
+          SLACK_MARKDOWN_VIEWER: ${{ secrets.SLACK_WEBHOOK_MARKDOWN_VIEWER }}
+          SLACK_VIRTUAL_KEYBOARD: ${{ secrets.SLACK_WEBHOOK_VIRTUAL_KEYBOARD }}
+        with:
+          github-token: ${{ secrets.ORG_PAT }}
+          script: |
+            const slackWebhookMap = {
+              'dev tools': process.env.SLACK_DEVTOOLS,
+              'visual studio': process.env.SLACK_VISUAL_STUDIO,
+              'visual studio code': process.env.SLACK_VSCODE,
+              'parcel': process.env.SLACK_PARCEL,
+              'webview': process.env.SLACK_WEBVIEW,
+              'mediaplayer': process.env.SLACK_MEDIAPLAYER,
+              'treedatagrid': process.env.SLACK_TREEDATAGRID,
+              'markdown viewer': process.env.SLACK_MARKDOWN_VIEWER,
+              'virtual keyboard': process.env.SLACK_VIRTUAL_KEYBOARD,
+            };
+
+            // Fetch org members dynamically
+            const orgMembers = await github.paginate(github.rest.orgs.listMembers, {
+              org: context.repo.owner,
+              per_page: 100,
+            });
+            const teamMembers = new Set(orgMembers.map(m => m.login));
+
+            const now = new Date();
+            const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+            // Fetch open issues from the last 7 days
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              since: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+              per_page: 100,
+            });
+
+            for (const issue of issues) {
+              // Skip PRs (the issues endpoint includes them)
+              if (issue.pull_request) continue;
+
+              // Must be older than 24 hours
+              if (new Date(issue.created_at) > cutoff) continue;
+
+              // Check for team engagement
+              const comments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+
+              const hasTeamComment = comments.data.some(c => teamMembers.has(c.user.login));
+              const hasTeamAssignee = issue.assignees.some(a => teamMembers.has(a.login));
+
+              if (hasTeamComment || hasTeamAssignee) continue;
+
+              // Find which product labels this issue has
+              const productLabels = issue.labels
+                .map(l => l.name)
+                .filter(l => slackWebhookMap[l]);
+
+              for (const label of productLabels) {
+                const webhookUrl = slackWebhookMap[label];
+                if (!webhookUrl) continue;
+
+                const ageHours = Math.round((now - new Date(issue.created_at)) / (1000 * 60 * 60));
+
+                const payload = {
+                  blocks: [
+                    {
+                      type: 'section',
+                      text: {
+                        type: 'mrkdwn',
+                        text: `⏰ *<${issue.html_url}|${issue.title}>*\nNo team engagement after ${ageHours} hours`,
+                      },
+                    },
+                    {
+                      type: 'context',
+                      elements: [
+                        {
+                          type: 'mrkdwn',
+                          text: `*Product:* ${label}  |  *By:* ${issue.user.login}  |  *Created:* <!date^${Math.floor(new Date(issue.created_at).getTime() / 1000)}^{date_short} at {time}|${issue.created_at}>`,
+                        },
+                      ],
+                    },
+                  ],
+                };
+
+                await fetch(webhookUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload),
+                });
+              }
+            }
