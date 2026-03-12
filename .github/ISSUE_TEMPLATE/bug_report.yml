@@ -27,6 +27,7 @@ body:
         - Avalonia for Visual Studio
         - Avalonia for Code
         - Parcel
+        - Charts
         - WebView
         - MediaPlayer
         - TreeDataGrid
