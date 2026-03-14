@@ -53,6 +53,7 @@ jobs:
               'Avalonia for Visual Studio': 'visual studio',
               'Avalonia for Code': 'visual studio code',
               'Parcel': 'parcel',
+              'Charts': 'charts',
               'WebView': 'webview',
               'MediaPlayer': 'mediaplayer',
               'TreeDataGrid': 'treedatagrid',
@@ -98,7 +99,7 @@ jobs:
 
             // Category classification
             const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
-            const components = ['WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
+            const components = ['Charts', 'WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
 
             // --- LABELLING --- 
 
