@@ -54,8 +54,8 @@
                                Canvas.Right="40"
                                Canvas.Bottom="-60"/>
                     </Canvas>
-                    <Image Source="/Assets/avalonia-logo.ico"
-                           Width="120"
+                    <Image Source="/Assets/banner-logo.png"
+                           Width="220"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
                 </Grid>
