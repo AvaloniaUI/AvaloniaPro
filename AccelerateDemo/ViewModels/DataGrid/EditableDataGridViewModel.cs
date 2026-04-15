@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
-using Avalonia.Controls.Models.TreeDataGrid;
 using CommunityToolkit.Mvvm.Input;
 using AccelerateDemo.Models;
 using AccelerateDemo.Services;
@@ -19,20 +18,27 @@ public partial class EditableDataGridViewModel : ViewModelBase
         _countries = SampleDataService.GetCountries();
 
         Source = new FlatTreeDataGridSource<Country>(_countries)
-        {
-            Columns =
+            .WithCheckBoxColumn(x => x.IsSelected, o => o.Width = new GridLength(40))
+            .WithTextColumn("Country", x => x.Name, o =>
             {
-                new CheckBoxColumn<Country>("", x => x.IsSelected, (o, v) => o.IsSelected = v, width: new GridLength(40)),
-                new TextColumn<Country, string>("Country", x => x.Name, (r, v) => r.Name = v ?? "", width: new GridLength(1, GridUnitType.Star),
-                    options: new TextColumnOptions<Country> { BeginEditGestures = BeginEditGestures.Tap }),
-                new TextColumn<Country, string>("Capital", x => x.Capital, (r, v) => r.Capital = v ?? "", width: new GridLength(1, GridUnitType.Star),
-                    options: new TextColumnOptions<Country> { BeginEditGestures = BeginEditGestures.Tap }),
-                new TextColumn<Country, long>("Population", x => x.Population, (r, v) => r.Population = v, width: new GridLength(120),
-                    options: new TextColumnOptions<Country> { BeginEditGestures = BeginEditGestures.Tap }),
-                new TextColumn<Country, string>("Continent", x => x.Continent, (r, v) => r.Continent = v ?? "", width: new GridLength(1, GridUnitType.Star),
-                    options: new TextColumnOptions<Country> { BeginEditGestures = BeginEditGestures.Tap }),
-            },
-        };
+                o.Width = new GridLength(1, GridUnitType.Star);
+                o.BeginEditGestures = BeginEditGestures.Tap;
+            })
+            .WithTextColumn("Capital", x => x.Capital, o =>
+            {
+                o.Width = new GridLength(1, GridUnitType.Star);
+                o.BeginEditGestures = BeginEditGestures.Tap;
+            })
+            .WithTextColumn("Population", x => x.Population, o =>
+            {
+                o.Width = new GridLength(120);
+                o.BeginEditGestures = BeginEditGestures.Tap;
+            })
+            .WithTextColumn("Continent", x => x.Continent, o =>
+            {
+                o.Width = new GridLength(1, GridUnitType.Star);
+                o.BeginEditGestures = BeginEditGestures.Tap;
+            });
     }
 
     [RelayCommand]
