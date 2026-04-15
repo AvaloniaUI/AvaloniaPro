@@ -36,7 +36,7 @@ public partial class MainWindowViewModel : ViewModelBase
         _flatNavItems = new ObservableCollection<NavigationItemViewModel>
         {
             new() { Title = "HOME", IsCategory = true },
-            new() { Title = "Dashboard", IconData = StreamGeometry.Parse(IconPaths.Accelerate), PageFactory = () => CreateDashboard() },
+            new() { Title = "Dashboard", IconData = StreamGeometry.Parse(IconPaths.Avalonia), PageFactory = () => CreateDashboard() },
             new() { Title = "CONTROLS", IsCategory = true },
             new() { Title = "Flat Grid", IsSubItem = false, IconData = StreamGeometry.Parse(IconPaths.DataGrid), PageFactory = () => new FlatDataGridViewModel() },
             new() { Title = "Hierarchical Grid", IsSubItem = false, IconData = StreamGeometry.Parse(IconPaths.DataGrid), PageFactory = () => new HierarchicalDataGridViewModel() },
