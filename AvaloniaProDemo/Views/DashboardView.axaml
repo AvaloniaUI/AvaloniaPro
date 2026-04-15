@@ -1,0 +1,205 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaProDemo.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="800"
+             x:Class="AvaloniaProDemo.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="Button.card:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.card:pointerover > Border">
+            <Setter Property="BorderBrush" Value="#3478F6"/>
+        </Style>
+    </UserControl.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <Grid Width="{Binding Bounds.Width, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+            <StackPanel Spacing="28"
+                        Margin="32,28,32,32"
+                        HorizontalAlignment="Stretch">
+
+            <!-- Hero Banner -->
+            <Border CornerRadius="20" ClipToBounds="True" HorizontalAlignment="Stretch" Height="220">
+                <Grid ClipToBounds="True">
+                    <Image Source="/Assets/banner-bg.png"
+                           Stretch="UniformToFill"/>
+                    <Canvas IsHitTestVisible="False">
+                        <Image x:Name="BannerLogo1"
+                               Source="/Assets/logo1.png"
+                               Width="230"
+                               Stretch="Uniform"
+                               Canvas.Left="-60"
+                               Canvas.Bottom="-50"/>
+                        <Image x:Name="BannerLogo2"
+                               Source="/Assets/logo2.png"
+                               Width="150"
+                               Stretch="Uniform"
+                               Canvas.Left="240"
+                               Canvas.Top="-60"/>
+                        <Image x:Name="BannerLogo3"
+                               Source="/Assets/logo3.png"
+                               Width="210"
+                               Stretch="Uniform"
+                               Canvas.Right="-70"
+                               Canvas.Top="-50"/>
+                        <Image x:Name="BannerLogo4"
+                               Source="/Assets/logo4.png"
+                               Width="170"
+                               Stretch="Uniform"
+                               Canvas.Right="40"
+                               Canvas.Bottom="-60"/>
+                    </Canvas>
+                    <Image Source="/Assets/banner-accelerate-logo.png"
+                           Width="220"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <!-- Components Section -->
+            <StackPanel Spacing="16">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Components"
+                               FontSize="20" FontWeight="Bold"
+                               LetterSpacing="-0.3"/>
+                    <TextBlock Text="Explore our premium UI component library"
+                               FontSize="13"
+                               Foreground="{DynamicResource SubtleForeground}"/>
+                </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding ComponentCards}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:DashboardCardViewModel}">
+                            <Button Classes="card"
+                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).NavigateToDemoCommand}"
+                                    CommandParameter="{Binding NavigationKey}"
+                                    Margin="0,0,12,12"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand">
+                                <Border Background="{DynamicResource CardBackground}"
+                                        BorderBrush="{DynamicResource CardBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="20,18"
+                                        Width="272"
+                                        MinHeight="148"
+                                        BoxShadow="0 1 3 0 #0D000000">
+                                    <StackPanel Spacing="12">
+                                        <!-- Icon Badge -->
+                                        <Border Background="{Binding BadgeBackground}"
+                                                CornerRadius="8"
+                                                Width="40" Height="40"
+                                                HorizontalAlignment="Left">
+                                            <PathIcon Data="{Binding IconData}"
+                                                      Foreground="{Binding BadgeForeground}"
+                                                      Width="20" Height="20"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <!-- Title and Description -->
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontSize="15" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="12.5"
+                                                       Foreground="{DynamicResource SubtleForeground}"
+                                                       TextWrapping="Wrap"
+                                                       LineHeight="18"
+                                                       MaxLines="3"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Divider -->
+            <Border Height="1" Background="{DynamicResource SectionDivider}"/>
+
+            <!-- Tooling Section -->
+            <StackPanel Spacing="16">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Tooling"
+                               FontSize="20" FontWeight="Bold"
+                               LetterSpacing="-0.3"/>
+                    <TextBlock Text="Accelerate your development workflow"
+                               FontSize="13"
+                               Foreground="{DynamicResource SubtleForeground}"/>
+                </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding ToolingCards}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:DashboardCardViewModel}">
+                            <Button Classes="card"
+                                    Command="{Binding $parent[ItemsControl].((vm:DashboardViewModel)DataContext).NavigateToDemoCommand}"
+                                    CommandParameter="{Binding NavigationKey}"
+                                    Margin="0,0,0,12"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch">
+                                <Border Background="{DynamicResource CardBackground}"
+                                        BorderBrush="{DynamicResource CardBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="24,20"
+                                        BoxShadow="0 1 3 0 #0D000000">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <!-- Large Icon Badge -->
+                                        <Border Grid.Column="0"
+                                                Background="{Binding BadgeBackground}"
+                                                CornerRadius="12"
+                                                Width="56" Height="56"
+                                                Margin="0,0,20,0">
+                                            <PathIcon Data="{Binding IconData}"
+                                                      Foreground="{Binding BadgeForeground}"
+                                                      Width="26" Height="26"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                        <!-- Text Content -->
+                                        <StackPanel Grid.Column="1" Spacing="4"
+                                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontSize="16" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="13"
+                                                       Foreground="{DynamicResource SubtleForeground}"
+                                                       TextWrapping="Wrap"
+                                                       LineHeight="20"/>
+                                        </StackPanel>
+                                        <!-- Arrow indicator -->
+                                        <TextBlock Grid.Column="2"
+                                                   Text="&#x2192;"
+                                                   FontSize="18"
+                                                   Foreground="{DynamicResource SubtleForeground}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="16,0,0,0"/>
+                                    </Grid>
+                                </Border>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
