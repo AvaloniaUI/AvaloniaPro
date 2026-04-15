@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
-using Avalonia.Controls.Models.TreeDataGrid;
 using CommunityToolkit.Mvvm.Input;
 using AccelerateDemo.Models;
 using AccelerateDemo.Services;
@@ -16,17 +15,17 @@ public partial class HierarchicalDataGridViewModel : ViewModelBase
         var files = SampleDataService.GetFileSystem();
 
         Source = new HierarchicalTreeDataGridSource<FileSystemNode>(files)
-        {
-            Columns =
-            {
-                new HierarchicalExpanderColumn<FileSystemNode>(
-                    new TemplateColumn<FileSystemNode>("Name", "FileNameCellTemplate", null, new GridLength(2, GridUnitType.Star)),
-                    x => x.Children),
-                new TextColumn<FileSystemNode, string>("Size", x => x.SizeDisplay, width: new GridLength(100)),
-                new TextColumn<FileSystemNode, string>("Type", x => x.TypeDisplay, width: new GridLength(120)),
-                new TextColumn<FileSystemNode, string>("Modified", x => x.ModifiedDisplay, width: new GridLength(120)),
-            },
-        };
+            .WithHierarchicalExpanderColumn(
+                "Name",
+                new TreeDataGridTemplateColumn("FileNameCellTemplate")
+                {
+                    Header = "Name",
+                    Width = new GridLength(2, GridUnitType.Star)
+                },
+                x => x.Children)
+            .WithTextColumn("Size", x => x.SizeDisplay, o => o.Width = new GridLength(100))
+            .WithTextColumn("Type", x => x.TypeDisplay, o => o.Width = new GridLength(120))
+            .WithTextColumn("Modified", x => x.ModifiedDisplay, o => o.Width = new GridLength(120));
     }
 
     [RelayCommand]
