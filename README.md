@@ -8,7 +8,7 @@ This repository doesn't contain the source code for our Pro controls and tooling
 The demo app in this repository lets you try Avalonia Pro with minimal effort. Because the demo includes components like Virtual Keyboard, you'll need either an Enterprise licence key or a free trial to run it.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4e299f7d-b2f0-41ba-a5c3-2a6ba3d1d867" alt="Avalonia Pro Sample App"/>
+  <img src="https://github.com/user-attachments/assets/89228d43-0663-4d79-96eb-a42119ff8e2e" alt="Avalonia Pro Sample App"/>
 </p>
 
 **[Start a Free Trial](https://portal.avaloniaui.net/avalonia)**
