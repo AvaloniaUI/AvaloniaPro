@@ -1,32 +1,26 @@
-[![Hero](https://github.com/user-attachments/assets/3134853d-e397-43af-8651-b57af3ae2fd4)](https://avaloniaui.net/accelerate?utm_source=github&utm_medium=referral&utm_content=readme_link)
+[![Hero](https://private-user-images.githubusercontent.com/552074/571913829-404db53f-f515-4a3a-bb18-f145dc34cedb.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzYyNjk4NzQsIm5iZiI6MTc3NjI2OTU3NCwicGF0aCI6Ii81NTIwNzQvNTcxOTEzODI5LTQwNGRiNTNmLWY1MTUtNGEzYS1iYjE4LWYxNDVkYzM0Y2VkYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNDE1JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDQxNVQxNjEyNTRaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kMTcwYjQ1ZmJmM2E5ZDI2NzU5MDdiNzBlZmRhZTBkODlkODY0NjE2Zjc1ZDU5NDk2ODc3ZjNlNTEzYjg0MTM1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.jZimtapSMjTp9Lgaisr5g8gjUm5C8CLE1eq_2NAHgdU)
 
-Welcome to the hub for [Avalonia Accelerate](https://avaloniaui.net/accelerate) bug reports, feature requests, and community discussions.
+Welcome to the hub for [Avalonia Pro](https://avaloniaui.net/pricing) bug reports, feature requests, and community discussions.
 
-This repository doesn't contain the source code for Accelerate, but it does contain the source for a beautiful demo app. It's where you come to talk to us and to each other about everything related to the Accelerate product suite, including the WebView, DevTools, TreeDataGrid and more.
+This repository doesn't contain the source code for our Pro controls and tooling, but it does contain the source for a beautiful demo app. It's where you come to talk to us and to each other about everything related to the Avalonia Pro product suite, including the WebView, DevTools, TreeDataGrid and more.
 
 ## Try It Out
-The demo app in this repository lets you try Accelerate with minimal effort. Because the demo includes components like Virtual Keyboard, you'll need either an Enterprise licence key or a free trial to run it.
+The demo app in this repository lets you try Avalonia Pro with minimal effort. Because the demo includes components like Virtual Keyboard, you'll need either an Enterprise licence key or a free trial to run it.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4e299f7d-b2f0-41ba-a5c3-2a6ba3d1d867" alt="Avalonia Accelerate Sample App"/>
+  <img src="https://github.com/user-attachments/assets/4e299f7d-b2f0-41ba-a5c3-2a6ba3d1d867" alt="Avalonia Pro Sample App"/>
 </p>
 
-**[Start a Free Trial](https://portal.avaloniaui.net/accelerate/licenses?start-trial)**
+**[Start a Free Trial](https://portal.avaloniaui.net/avalonia)**
 
-Once you have your key, open `AccelerateDemo.csproj` and replace the placeholder:
+Once you have your key, make sure you place it in an environment variable called `AVALONIA_LICENSE_KEY`, or open `AvaloniaProDemo.csproj` and replace the placeholder:
+
 ```xml 
 <ItemGroup>
     <!-- Enterprise or Trial key required. -->
-    <AvaloniaUILicenseKey Include="YOUR_LICENSE_KEY_GOES_HERE" />
+    <AvaloniaUILicenseKey Include="$(AVALONIA_LICENSE_KEY)" />
 </ItemGroup>
 ```
-
-## Getting Started
-
-If you're new to Avalonia Accelerate, here are the essentials:
-
-- [Product Overview](https://avaloniaui.net/accelerate) — Learn what's included and find the right plan for your team.
-- [Documentation](https://docs.avaloniaui.net/accelerate/welcome) — Guides, tutorials, and API reference.
 
 ## How to Use This Repository
 
@@ -37,7 +31,7 @@ If you're new to Avalonia Accelerate, here are the essentials:
 We genuinely want to hear it. [Start a discussion](../../discussions/categories/ideas) in the Ideas category and let the community weigh in. The most popular and impactful requests directly shape our roadmap.
 
 ## Enterprise Customers
-If you're on an Enterprise plan, you have access to private ticket support. You can still participate here, of course, but for anything sensitive or specific to your environment, open a ticket through your dedicated [support channel](https://portal.avaloniaui.net/accelerate).
+If you're on an Enterprise plan, you have access to private ticket support. You can still participate here, of course, but for anything sensitive or specific to your environment, open a ticket through your dedicated [support channel](https://portal.avaloniaui.net/avalonia).
 
 ## Before You Post
 Please search existing issues and discussions first to see if someone has already raised the same topic. Duplicates slow things down for everyone, and adding your voice to an existing thread actually gives it more weight.
@@ -54,7 +48,7 @@ This repository is for product and technical discussions only.
 **[Open a Support Ticket](https://portal.avaloniaui.net/help)**
 
 ## Avalonia Framework
-This repository is specifically for **Avalonia Accelerate** (the commercial tooling and components). If you've found a bug or have a question about the open-source Avalonia framework itself, head over to the main [Avalonia repository](https://github.com/AvaloniaUI/Avalonia).
+This repository is specifically for **Avalonia Pro** (the commercial tooling and components). If you've found a bug or have a question about the open-source Avalonia framework itself, head over to the main [Avalonia repository](https://github.com/AvaloniaUI/Avalonia).
 
 ## Code of Conduct
 We expect everyone here to be respectful and constructive. Please review our [Code of Conduct](https://github.com/AvaloniaUI/.github/blob/main/CODE_OF_CONDUCT.md) before participating.
