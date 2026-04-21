@@ -28,7 +28,7 @@
         <PackageReference Include="Avalonia" Version="12.0.1" />
         <PackageReference Include="Avalonia.Controls.Markdown" Version="12.0.0" />
         <PackageReference Include="Avalonia.Controls.Markdown.TextMate" Version="12.0.0" />
-        <PackageReference Include="Avalonia.Controls.MediaPlayer" Version="12.0.0" />
+        <PackageReference Include="Avalonia.Controls.MediaPlayer" Version="12.0.1" />
         <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="12.0.0-beta3" />
         <PackageReference Include="Avalonia.Controls.VirtualKeyboard" Version="12.0.0" />
         <PackageReference Include="Avalonia.Controls.WebView" Version="12.0.0" />
