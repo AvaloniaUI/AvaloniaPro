@@ -52,10 +52,12 @@ body:
   - type: dropdown
     id: tier
     attributes:
-      label: Accelerate Tier
+      label: License Tier
       options:
         - Community
         - Trial
+        - Pro
+        - Plus
         - Business
         - Enterprise
     validations:
@@ -68,7 +70,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Accelerate Version
+      label: Tool/Control Version
       placeholder: e.g. v11.x.x
   - type: textarea
     id: logs
