@@ -14,7 +14,7 @@ body:
     id: steps
     attributes:
       label: To Reproduce
-      description: Steps to reproduce the behaviour.
+      description: Steps to reproduce the behaviour. Providing a complete example that reproduces the bug makes it more likely that we can fix the problem. Screenshots and snippets of code are unlikely to be sufficient.
     validations:
       required: true
   - type: dropdown
