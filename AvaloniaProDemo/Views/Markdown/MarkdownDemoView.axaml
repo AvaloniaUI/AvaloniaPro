@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:documents="using:Avalonia.Controls.Documents"
              xmlns:vm="using:AvaloniaProDemo.ViewModels.Markdown"
              xmlns:textMate="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.Markdown.TextMate"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
@@ -13,6 +14,10 @@
     </UserControl.Resources>
 
     <UserControl.Styles>
+        <Style Selector="documents|MarkdownCodeBlock">
+            <Setter Property="Highlighter" Value="{StaticResource textMateHighlighter}"/>
+        </Style>
+
         <Style Selector="Button.active">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -108,7 +113,6 @@
                     ClipToBounds="True">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                     <Markdown Text="{Binding MarkdownText}"
-                              CodeHighlighter="{StaticResource textMateHighlighter}"
                               Margin="16"/>
                 </ScrollViewer>
             </Border>
@@ -124,7 +128,6 @@
                     ClipToBounds="True">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled">
                     <Markdown Text="{Binding MarkdownText}"
-                              CodeHighlighter="{StaticResource textMateHighlighter}"
                               Margin="16"/>
                 </ScrollViewer>
             </Border>
