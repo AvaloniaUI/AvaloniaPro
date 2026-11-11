@@ -22,6 +22,10 @@ jobs:
           SLACK_MEDIAPLAYER: ${{ secrets.SLACK_WEBHOOK_MEDIAPLAYER }}
           SLACK_TREEDATAGRID: ${{ secrets.SLACK_WEBHOOK_TREEDATAGRID }}
           SLACK_MARKDOWN_VIEWER: ${{ secrets.SLACK_WEBHOOK_MARKDOWN_VIEWER }}
+          SLACK_RICHTEXTEDITOR: ${{ secrets.SLACK_WEBHOOK_RICHTEXTEDITOR }}
+          SLACK_CHARTS: ${{ secrets.SLACK_WEBHOOK_CHARTS }}
+          SLACK_PDF_VIEWER: ${{ secrets.SLACK_WEBHOOK_PDF_VIEWER }}
+          SLACK_HOTRELOAD: ${{ secrets.SLACK_WEBHOOK_HOTRELOAD }}
           SLACK_VIRTUAL_KEYBOARD: ${{ secrets.SLACK_WEBHOOK_VIRTUAL_KEYBOARD }}
         with:
           github-token: ${{ secrets.ORG_PAT }}
@@ -31,10 +35,14 @@ jobs:
               'visual studio': process.env.SLACK_VISUAL_STUDIO,
               'visual studio code': process.env.SLACK_VSCODE,
               'parcel': process.env.SLACK_PARCEL,
+              'hotreload': process.env.SLACK_HOTRELOAD,
+              'charts': process.env.SLACK_CHARTS,
               'webview': process.env.SLACK_WEBVIEW,
               'mediaplayer': process.env.SLACK_MEDIAPLAYER,
               'treedatagrid': process.env.SLACK_TREEDATAGRID,
               'markdown viewer': process.env.SLACK_MARKDOWN_VIEWER,
+              'richtexteditor': process.env.SLACK_RICHTEXTEDITOR,
+              'pdf viewer': process.env.SLACK_PDF_VIEWER,
               'virtual keyboard': process.env.SLACK_VIRTUAL_KEYBOARD,
             };
 
