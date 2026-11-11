@@ -21,6 +21,10 @@ jobs:
           SLACK_MEDIAPLAYER: ${{ secrets.SLACK_WEBHOOK_MEDIAPLAYER }}
           SLACK_TREEDATAGRID: ${{ secrets.SLACK_WEBHOOK_TREEDATAGRID }}
           SLACK_MARKDOWN_VIEWER: ${{ secrets.SLACK_WEBHOOK_MARKDOWN_VIEWER }}
+          SLACK_RICHTEXTEDITOR: ${{ secrets.SLACK_WEBHOOK_RICHTEXTEDITOR }}
+          SLACK_CHARTS: ${{ secrets.SLACK_WEBHOOK_CHARTS }}
+          SLACK_PDF_VIEWER: ${{ secrets.SLACK_WEBHOOK_PDF_VIEWER }}
+          SLACK_HOTRELOAD: ${{ secrets.SLACK_WEBHOOK_HOTRELOAD }}
           SLACK_VIRTUAL_KEYBOARD: ${{ secrets.SLACK_WEBHOOK_VIRTUAL_KEYBOARD }}
         with:
           script: |
@@ -53,11 +57,14 @@ jobs:
               'Avalonia for Visual Studio': 'visual studio',
               'Avalonia for Code': 'visual studio code',
               'Parcel': 'parcel',
+              'Hot Reload': 'hotreload',
               'Charts': 'charts',
               'WebView': 'webview',
               'MediaPlayer': 'mediaplayer',
               'TreeDataGrid': 'treedatagrid',
               'Markdown Viewer': 'markdown viewer',
+              'RichTextEditor': 'richtexteditor',
+              'PDF Viewer': 'pdf viewer',
               'Virtual Keyboard': 'virtual keyboard',
             };
 
@@ -77,10 +84,14 @@ jobs:
               'Avalonia for Visual Studio': 'mrlacey',
               'Avalonia for Code': 'mrlacey',
               'Parcel': 'maxkatz6',
+              'Hot Reload': 'drasticactions',
+              'Charts': 'jsuarezruiz',
               'WebView': 'maxkatz6',
               'MediaPlayer': 'jmacato',
               'TreeDataGrid': 'grokys',
               'Markdown Viewer': 'Gillibald',
+              'RichTextEditor': 'Gillibald',
+              'PDF Viewer': 'msivers',
               'Virtual Keyboard': 'kekekeks',
             };
 
@@ -90,16 +101,20 @@ jobs:
               'Avalonia for Visual Studio': process.env.SLACK_VISUAL_STUDIO,
               'Avalonia for Code': process.env.SLACK_VSCODE,
               'Parcel': process.env.SLACK_PARCEL,
+              'Hot Reload': process.env.SLACK_HOTRELOAD,
+              'Charts': process.env.SLACK_CHARTS,
               'WebView': process.env.SLACK_WEBVIEW,
               'MediaPlayer': process.env.SLACK_MEDIAPLAYER,
               'TreeDataGrid': process.env.SLACK_TREEDATAGRID,
               'Markdown Viewer': process.env.SLACK_MARKDOWN_VIEWER,
+              'RichTextEditor': process.env.SLACK_RICHTEXTEDITOR,
+              'PDF Viewer': process.env.SLACK_PDF_VIEWER,
               'Virtual Keyboard': process.env.SLACK_VIRTUAL_KEYBOARD,
             };
 
             // Category classification
-            const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel'];
-            const components = ['Charts', 'WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'Virtual Keyboard'];
+            const tools = ['DevTools', 'Avalonia for Visual Studio', 'Avalonia for Code', 'Parcel', 'Hot Reload'];
+            const components = ['Charts', 'WebView', 'MediaPlayer', 'TreeDataGrid', 'Markdown Viewer', 'RichTextEditor', 'PDF Viewer', 'Virtual Keyboard'];
 
             // --- LABELLING --- 
 
@@ -198,6 +213,7 @@ jobs:
             if (context.payload.action !== 'opened') return;
 
             const platformTags = platforms.length > 0 ? platforms.join(', ') : 'Not specified';
+            const icon = issue.type?.name === 'Feature' ? '✨' : '🐛';
 
             for (const product of products) {
               const webhookUrl = slackWebhookMap[product];
@@ -209,7 +225,7 @@ jobs:
                     type: 'section',
                     text: {
                       type: 'mrkdwn',
-                      text: `🐛 *<${issue.html_url}|${issue.title}>*`,
+                      text: `${icon} *<${issue.html_url}|${issue.title}>*`,
                     },
                   },
                   {

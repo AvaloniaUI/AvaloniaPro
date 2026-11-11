@@ -27,11 +27,14 @@ body:
         - Avalonia for Visual Studio
         - Avalonia for Code
         - Parcel
+        - Hot Reload
         - Charts
         - WebView
         - MediaPlayer
         - TreeDataGrid
         - Markdown Viewer
+        - RichTextEditor
+        - PDF Viewer
         - Virtual Keyboard
     validations:
       required: true
